@@ -88,41 +88,44 @@ public class CombinatorialSearch {
             System.out.println("\n\nPrinting Answer List : ");
             printList(answerList);
 
-            remainingNums.removeAll(possibleSets.get(0));
+            for(HashSet<Integer> s: possibleSets)
+            {
+                remainingNums.removeAll(s);
 
-            System.out.println("\n\nPrinting remaining Nums : " + remainingNums);
-
-            sets.remove(possibleSets.get(0));
-
-            System.out.println("\n\nPrinting remaining sets : ");
-            printList(sets);
-
-            if(backTrack(remainingNums, sets, answerList)) return true;
-
-            System.out.println("\n\n\t\t\t\t\tBack Tracking : ");
-
-
-            System.out.println("\n\nPrinting pre-answer List : ");
-            printList(answerList);
-
-            answerList.remove(possibleSets.get(0));
-
-            System.out.println("\n\nPrinting post-answer List : ");
-            printList(answerList);
-
-            System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
-
-            remainingNums.addAll(possibleSets.get(0));
-
-            System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
-
-            System.out.println("\n\nPrinting all pre-remaining sets : ");
-            printList(sets);
-
-            sets.add(possibleSets.get(0));
-
-            System.out.println("\n\nPrinting all post-remaining sets : ");
-            printList(sets);
+                System.out.println("\n\nPrinting remaining Nums : " + remainingNums);
+    
+                sets.remove(s);
+    
+                System.out.println("\n\nPrinting remaining sets : ");
+                printList(sets);
+    
+                backTrack(remainingNums, sets, answerList);
+    
+                System.out.println("\n\n\t\t\t\t\tBack Tracking : ");
+    
+    
+                System.out.println("\n\nPrinting pre-answer List : ");
+                printList(answerList);
+    
+                answerList.remove(s);
+    
+                System.out.println("\n\nPrinting post-answer List : ");
+                printList(answerList);
+    
+                System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
+    
+                remainingNums.addAll(s);
+    
+                System.out.println("\n\nPrinting post-remaining nums : " + remainingNums);
+    
+                System.out.println("\n\nPrinting all pre-remaining sets : ");
+                printList(sets);
+    
+                sets.add(s);
+    
+                System.out.println("\n\nPrinting all post-remaining sets : ");
+                printList(sets);
+            }
         }
         return false;
     }
