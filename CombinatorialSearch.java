@@ -14,10 +14,8 @@ public class CombinatorialSearch {
 
         readFile(new File("All Files/s-X-12-6.txt"));
 
-        System.out.println("Universal Set: " + universalSet);
-        for (int i = 0; i < sets.size(); i++) {
-            System.out.println(sets.get(i) + " ");
-        }
+        System.out.println("\n\nUniversal Set: " + universalSet);
+        printList(sets);
 
         backTrack(universalSet, sets, answers);
 
@@ -69,42 +67,71 @@ public class CombinatorialSearch {
 
     private static boolean backTrack(HashSet<Integer> remainingNums, List<HashSet<Integer>> sets, List<HashSet<Integer>> answerList){
         
-        System.out.println("Starting to backtrack");
+        System.out.println("\n\nStarting to backtrack");
 
         // is_a_solution
         if(remainingNums.isEmpty())
         {
             //process_solution
-            System.out.println("You need a total of " + answerList.size() + " sets");
-            for (int i = 0; i < answerList.size(); i++) {
-                System.out.println(answerList.get(i) + " ");
-            }
+            System.out.println("\n\nYou need a total of " + answerList.size() + " sets");
+            printList(answerList);
             return true;
         }
         else{
             // For each element in remainingNums, if any of the sets in sets contains the element, add that set to answerList after removing it from remainingNums
-            contructCandidates(remainingNums, sets, possibleSets);
+            contructCandidates(remainingNums, sets);
+            
+            System.out.println("\n\nDone Constructing Candidates");
+
             answerList.add(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting Answer List : ");
+            printList(answerList);
+
             remainingNums.removeAll(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting remaining Nums : " + remainingNums);
+
             sets.remove(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting remaining sets : ");
+            printList(sets);
+
             if(backTrack(remainingNums, sets, answerList)) return true;
+
+            System.out.println("\n\n\t\t\t\t\tBack Tracking : ");
+
+
+            System.out.println("\n\nPrinting pre-answer List : ");
+            printList(answerList);
+
             answerList.remove(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting post-answer List : ");
+            printList(answerList);
+
+            System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
+
             remainingNums.addAll(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
+
+            System.out.println("\n\nPrinting all pre-remaining sets : ");
+            printList(sets);
+
             sets.add(possibleSets.get(0));
+
+            System.out.println("\n\nPrinting all post-remaining sets : ");
+            printList(sets);
         }
         return false;
     }
 
-    /**
-     *  This routine fills a list possibleSets with the complete set of possible
-     *  candidates for the kth position of a, given the contents of the
-     *  first k − 1 positions.
-     *  The number of candidates returned in this array is denoted by
-     *  nc.
-     */
-    private static void contructCandidates(HashSet<Integer> remainingNums, List<HashSet<Integer>> allSets, List<HashSet<Integer>> candidates)
+    private static void contructCandidates(HashSet<Integer> remainingNums, List<HashSet<Integer>> allSets)
     {
         System.out.println("Constructing candidates ... \n");
+
+        HashSet<HashSet<Integer>> tempSet = new HashSet<HashSet<Integer>>();
 
         for(int i: remainingNums)
         {
@@ -112,16 +139,16 @@ public class CombinatorialSearch {
             {
                 if(set.contains(i))
                 {
-                    candidates.add(set);
+                    tempSet.add(set);
                 }
             }
         }
 
-        System.out.println("Constructed candidates: ");
+        possibleSets = new ArrayList<>(tempSet);
 
-        for (int i = 0; i < candidates.size(); i++) {
-            System.out.println(candidates.get(i) + " ");
-        }
+        System.out.println("Constructed " + possibleSets.size() + " candidates: ");
+
+        printList(possibleSets);
     }
 
     // private static void removeAll(HashSet<Integer> removeFrom, HashSet<Integer> sets)
@@ -134,4 +161,11 @@ public class CombinatorialSearch {
     //         return false;
     //     });
     // }
+
+    private static void printList(List<HashSet<Integer>> toPrint)
+    {
+        for (int i = 0; i < toPrint.size(); i++) {
+            System.out.println(toPrint.get(i) + " ");
+        }
+    }
 }
