@@ -146,6 +146,13 @@ public class CombinatorialSearch {
 
         possibleSets = new ArrayList<>(tempSet);
 
+        Collections.sort(possibleSets, new Comparator<Set<?>>() {
+            @Override
+            public int compare(Set<?> o1, Set<?> o2) {
+                return Integer.valueOf(o2.size()).compareTo(o1.size());
+            }
+        });
+
         System.out.println("Constructed " + possibleSets.size() + " candidates: ");
 
         printList(possibleSets);
