@@ -101,30 +101,29 @@ public class CombinatorialSearch {
     
                 backTrack(remainingNums, sets, answerList);
     
-                System.out.println("\n\n\t\t\t\t\tBack Tracking : ");
+                // System.out.println("\n\n\t\t\t\t\tBack Tracking : ");
     
+                // System.out.println("\n\nPrinting pre-answer List : ");
+                // printList(answerList);
     
-                System.out.println("\n\nPrinting pre-answer List : ");
-                printList(answerList);
+                // answerList.remove(s);
     
-                answerList.remove(s);
+                // System.out.println("\n\nPrinting post-answer List : ");
+                // printList(answerList);
     
-                System.out.println("\n\nPrinting post-answer List : ");
-                printList(answerList);
+                // System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
     
-                System.out.println("\n\nPrinting pre-remaining nums : " + remainingNums);
+                // remainingNums.addAll(s);
     
-                remainingNums.addAll(s);
+                // System.out.println("\n\nPrinting post-remaining nums : " + remainingNums);
     
-                System.out.println("\n\nPrinting post-remaining nums : " + remainingNums);
+                // System.out.println("\n\nPrinting all pre-remaining sets : ");
+                // printList(sets);
     
-                System.out.println("\n\nPrinting all pre-remaining sets : ");
-                printList(sets);
+                // sets.add(s);
     
-                sets.add(s);
-    
-                System.out.println("\n\nPrinting all post-remaining sets : ");
-                printList(sets);
+                // System.out.println("\n\nPrinting all post-remaining sets : ");
+                // printList(sets);
             }
         }
         return false;
