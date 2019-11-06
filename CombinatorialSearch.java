@@ -10,16 +10,9 @@ public class CombinatorialSearch {
     public static HashSet<Integer> universalSet;
 
     public static void main(String[] args) {
-        // long startTime = System.currentTimeMillis(); // For program timing
-
-        readFile(new File("All Files/s-rg-63-25.txt"));
-
+        readFile(new File("All Files/s-X-12-6.txt"));
         backTrack(sets, answers);
         printList(answers);
-
-        // long endTime = System.currentTimeMillis(); // For program timing
-
-        // System.out.println("Total execution time: " + ((endTime - startTime) / 1000.0) + " s");
     }
 
     // Reads in the file then populates the sets
@@ -103,7 +96,15 @@ public class CombinatorialSearch {
                     combination.add(allSets.get(j));
                 }
             }
-            possibleSets.add(combination);
+
+            HashSet<Integer> tempSet = new HashSet<Integer>();
+            for(HashSet<Integer> s: combination)
+            {
+                tempSet.addAll(s);
+            }
+
+            if(tempSet.size() == universalSet.size())
+                possibleSets.add(combination);
         }
         possibleSets = possibleSets.stream().sorted((o1,o2) -> {
                return Integer.compare(o1.size(), o2.size());
@@ -112,7 +113,7 @@ public class CombinatorialSearch {
 
     private static void printList(List<HashSet<Integer>> toPrint)
     {
-        System.out.println("Atleast " + toPrint.size() + " sets are required. The subsets required are: ");
+        System.out.println("At least " + toPrint.size() + " sets are required. The subsets required are: ");
 
         for (int i = 0; i < toPrint.size(); i++) {
             System.out.println(toPrint.get(i) + " ");
