@@ -5,14 +5,20 @@ import java.util.stream.Collectors;
 public class CombinatorialSearch {
 
     public static List<HashSet<Integer>> sets = new ArrayList<HashSet<Integer>>();
+    public static List<HashSet<Integer>> singleSets = new ArrayList<HashSet<Integer>>();
     public static List<HashSet<Integer>> answers = new ArrayList<HashSet<Integer>>();
     public static List<List<HashSet<Integer>>> possibleSets = new ArrayList<List<HashSet<Integer>>>();
-    public static HashSet<Integer> universalSet;
+    public static HashSet<Integer> universalSet = new HashSet<Integer>();
 
     public static void main(String[] args) {
-        readFile(new File("All Files/s-X-12-6.txt"));
-        backTrack(sets, answers);
-        printList(answers);
+        readFile(new File("All Files/s-k-20-35.txt"));
+        if (backTrack(sets, answers))
+            printList(answers);
+        else {
+            sets.addAll(singleSets);
+            backTrack(sets, answers);
+            printList(answers);
+        }
     }
 
     // Reads in the file then populates the sets
@@ -33,9 +39,8 @@ public class CombinatorialSearch {
 
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
-                if(line.equals(""))
-                {
-                    sets.add(new HashSet<>());
+                if (line.equals("")) {
+                    sets.add(new HashSet<Integer>());
                     lst.clear();
                     continue;
                 }
@@ -44,15 +49,13 @@ public class CombinatorialSearch {
                     num = Integer.parseInt(stringList.get(j));
                     lst.add(num);
                 }
-                sets.add(new HashSet<>(lst));
-                lst.clear();
-            }
-            Collections.sort(sets, new Comparator<Set<?>>() {
-                @Override
-                public int compare(Set<?> o1, Set<?> o2) {
-                    return Integer.valueOf(o2.size()).compareTo(o1.size());
+                if (lst.size() == 1)
+                    singleSets.add(new HashSet<Integer>(lst));
+                else {
+                    sets.add(new HashSet<Integer>(lst));
+                    lst.clear();
                 }
-            });
+            }
             sc.close();
 
         } catch (FileNotFoundException e) {
@@ -60,22 +63,17 @@ public class CombinatorialSearch {
         }
     }
 
-    private static boolean backTrack(List<HashSet<Integer>> sets, List<HashSet<Integer>> answerList)
-    {
+    private static boolean backTrack(List<HashSet<Integer>> sets, List<HashSet<Integer>> answerList) {
         // construct_candidates()
         contructCandidates(sets);
-    
-        for(List<HashSet<Integer>> l: possibleSets)
-        {
-            HashSet<Integer> tempSet = new HashSet<Integer>();
-            for(HashSet<Integer> s: l)
-            {
-                tempSet.addAll(s);
-            }
 
+        for (List<HashSet<Integer>> l : possibleSets) {
+            HashSet<Integer> tempSet = new HashSet<Integer>();
+            for (HashSet<Integer> s : l) 
+                tempSet.addAll(s);
+            
             // is_a_solution()
-            if(tempSet.size() == universalSet.size())
-            {
+            if (tempSet.size() == universalSet.size()) {
                 // process_solution()
                 answers = l;
                 return true;
@@ -84,39 +82,31 @@ public class CombinatorialSearch {
         return false;
     }
 
-    private static void contructCandidates(List<HashSet<Integer>> allSets)
-    {
-        for(int i = 0; i < (1 << allSets.size()); i++)
-        {
-            List<HashSet<Integer>> combination = new ArrayList<>();
-            for(int j = 0; j < allSets.size(); j++) 
-            {
-                if (((i/(int)Math.pow(2, j)) & 1) != 0)
-                {
+    private static void contructCandidates(List<HashSet<Integer>> allSets) {
+        for (int i = 0; i < (1 << allSets.size()); i++) {
+            List<HashSet<Integer>> combination = new ArrayList<HashSet<Integer>>();
+            for (int j = 0; j < allSets.size(); j++) {
+                if (((i / (int) Math.pow(2, j)) & 1) != 0) 
                     combination.add(allSets.get(j));
-                }
             }
 
             HashSet<Integer> tempSet = new HashSet<Integer>();
-            for(HashSet<Integer> s: combination)
-            {
+            for (HashSet<Integer> s : combination)
                 tempSet.addAll(s);
-            }
+            
 
-            if(tempSet.size() == universalSet.size())
+            if (tempSet.size() == universalSet.size())
                 possibleSets.add(combination);
         }
-        possibleSets = possibleSets.stream().sorted((o1,o2) -> {
-               return Integer.compare(o1.size(), o2.size());
+        possibleSets = possibleSets.stream().sorted((o1, o2) -> {
+            return Integer.compare(o1.size(), o2.size());
         }).collect(Collectors.toList());
     }
 
-    private static void printList(List<HashSet<Integer>> toPrint)
-    {
+    private static void printList(List<HashSet<Integer>> toPrint) {
         System.out.println("At least " + toPrint.size() + " sets are required. The subsets required are: ");
 
-        for (int i = 0; i < toPrint.size(); i++) {
-            System.out.println(toPrint.get(i) + " ");
-        }
+        for (int i = 0; i < toPrint.size(); i++) 
+            System.out.println(toPrint.get(i) + " ");   
     }
 }
