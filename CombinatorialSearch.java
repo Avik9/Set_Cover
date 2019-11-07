@@ -1,4 +1,5 @@
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ public class CombinatorialSearch {
     public static HashSet<Integer> universalSet = new HashSet<Integer>();
 
     public static void main(String[] args) {
-        readFile(new File("All Files/s-k-20-35.txt"));
+        readFile(new File("All Files/s-k-20-30.txt"));
         if (backTrack(sets, answers))
             printList(answers);
         else {
@@ -32,7 +33,7 @@ public class CombinatorialSearch {
             universalSet = new HashSet<>(setSize);
             for (int i = 1; i <= setSize; i++)
                 universalSet.add(i);
-            Set<Integer> lst = new HashSet();
+            Set<Integer> lst = new HashSet<Integer>();
             String line = sc.nextLine();
             List<String> stringList = new ArrayList<String>();
             int num;
@@ -69,9 +70,9 @@ public class CombinatorialSearch {
 
         for (List<HashSet<Integer>> l : possibleSets) {
             HashSet<Integer> tempSet = new HashSet<Integer>();
-            for (HashSet<Integer> s : l) 
+            for (HashSet<Integer> s : l)
                 tempSet.addAll(s);
-            
+
             // is_a_solution()
             if (tempSet.size() == universalSet.size()) {
                 // process_solution()
@@ -86,14 +87,13 @@ public class CombinatorialSearch {
         for (int i = 0; i < (1 << allSets.size()); i++) {
             List<HashSet<Integer>> combination = new ArrayList<HashSet<Integer>>();
             for (int j = 0; j < allSets.size(); j++) {
-                if (((i / (int) Math.pow(2, j)) & 1) != 0) 
+                if (((i / (int) Math.pow(2, j)) & 1) != 0)
                     combination.add(allSets.get(j));
             }
 
             HashSet<Integer> tempSet = new HashSet<Integer>();
             for (HashSet<Integer> s : combination)
                 tempSet.addAll(s);
-            
 
             if (tempSet.size() == universalSet.size())
                 possibleSets.add(combination);
@@ -106,7 +106,7 @@ public class CombinatorialSearch {
     private static void printList(List<HashSet<Integer>> toPrint) {
         System.out.println("At least " + toPrint.size() + " sets are required. The subsets required are: ");
 
-        for (int i = 0; i < toPrint.size(); i++) 
-            System.out.println(toPrint.get(i) + " ");   
+        for (int i = 0; i < toPrint.size(); i++)
+            System.out.println(toPrint.get(i) + " ");
     }
 }
