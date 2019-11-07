@@ -12,7 +12,7 @@ public class CombinatorialSearch {
     public static HashSet<Integer> universalSet = new HashSet<Integer>();
 
     public static void main(String[] args) {
-        readFile(new File("All Files/s-k-20-30.txt"));
+        readFile(new File("All Files/s-rg-109-35.txt"));
         if (backTrack(sets, answers))
             printList(answers);
         else {
@@ -68,26 +68,29 @@ public class CombinatorialSearch {
         // construct_candidates()
         contructCandidates(sets);
 
-        for (List<HashSet<Integer>> l : possibleSets) {
-            HashSet<Integer> tempSet = new HashSet<Integer>();
-            for (HashSet<Integer> s : l)
-                tempSet.addAll(s);
+        if(possibleSets.isEmpty())
+        {
+            return false;
+        }
 
-            // is_a_solution()
-            if (tempSet.size() == universalSet.size()) {
-                // process_solution()
-                answers = l;
-                return true;
-            }
+        HashSet<Integer> tempSet = new HashSet<Integer>();
+        for (HashSet<Integer> s : possibleSets.get(0))
+            tempSet.addAll(s);
+
+        // is_a_solution()
+        if (tempSet.size() == universalSet.size()) {
+            // process_solution()
+            answers = possibleSets.get(0);
+            return true;
         }
         return false;
     }
 
     private static void contructCandidates(List<HashSet<Integer>> allSets) {
-        for (int i = 0; i < (1 << allSets.size()); i++) {
+        for (long i = 0; i < ((long)1 << allSets.size()); i++) {
             List<HashSet<Integer>> combination = new ArrayList<HashSet<Integer>>();
             for (int j = 0; j < allSets.size(); j++) {
-                if (((i / (int) Math.pow(2, j)) & 1) != 0)
+                if (((long)(i / (int) Math.pow(2, j)) & 1) != 0)
                     combination.add(allSets.get(j));
             }
 
