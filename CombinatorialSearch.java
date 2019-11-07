@@ -12,7 +12,7 @@ public class CombinatorialSearch {
     public static HashSet<Integer> universalSet = new HashSet<Integer>();
 
     public static void main(String[] args) {
-        readFile(new File("All Files/s-rg-109-35.txt"));
+        readFile(new File("All Files/s-X-12-6.txt"));
         if (backTrack(sets, answers))
             printList(answers);
         else {
@@ -87,10 +87,10 @@ public class CombinatorialSearch {
     }
 
     private static void contructCandidates(List<HashSet<Integer>> allSets) {
-        for (long i = 0; i < ((long)1 << allSets.size()); i++) {
+        for (long i = 0; i < (double)(1 << allSets.size()); i++) {
             List<HashSet<Integer>> combination = new ArrayList<HashSet<Integer>>();
             for (int j = 0; j < allSets.size(); j++) {
-                if (((long)(i / (int) Math.pow(2, j)) & 1) != 0)
+                if (((i / (int) Math.pow(2, j)) & 1) != 0)
                     combination.add(allSets.get(j));
             }
 
